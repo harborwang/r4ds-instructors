@@ -36,6 +36,18 @@ definitions for glossary construction.
 
 ## Course Timeline
 
+```{r setup, echo=FALSE, eval=FALSE}
+library(tidyverse)
+library(xlsx)
+```
+
+```{r weekly plan, echo=FALSE}
+weekly_plan <- readxl::read_xlsx(path = "weekly time plan.xlsx")
+```
+
+```{r, echo=FALSE}
+knitr::kable(weekly_plan, "pipe")
+```
 
 
 ## 0. Environment Setup
