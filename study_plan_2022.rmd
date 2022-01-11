@@ -1,0 +1,43 @@
+---
+title: "Study Plan for 'R for Data Science' "
+author: "Hao Wang"
+date: "1/11/2022"
+output: pdf_document
+---
+
+**Notes**
+
+This is a study plan for the guided self-study of [R4DS](http://r4ds.had.co.nz/).
+
+**References**
+
+Hadley Wickham and Garrett Grolemund: *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. 1st ed., O'Reilly Media, 2017.
+
+## Course Time line
+
+Here is the study plan for each week. We will not study the Model Section together, but you are welcome to study it by yourself.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readxl)
+```
+
+```{r weekly plan, echo=FALSE}
+weekly_plan <- readxl::read_xlsx(path = "weekly time plan.xlsx") %>% 
+  select(-`Preparation need from instructor`)
+
+```
+
+```{r, echo=FALSE}
+knitr::kable(weekly_plan, "pipe")
+```
+
+We will have a 45 \~ 60 minutes tutorial session every week. During the tutorial session, I will
+
+-   Go through some content in the book.
+
+-   Discussion assignment/code
+
+The expected self-study time for students will be 2 \~ 3 hours each week. And, if it possible, please send in your homework a day before the tutorial session.

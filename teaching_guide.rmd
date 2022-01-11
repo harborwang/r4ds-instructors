@@ -38,7 +38,7 @@ definitions for glossary construction.
 
 ```{r setup, echo=FALSE, eval=FALSE}
 library(tidyverse)
-library(xlsx)
+library(readxl)
 ```
 
 ```{r weekly plan, echo=FALSE}
