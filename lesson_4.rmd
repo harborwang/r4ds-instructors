@@ -1,0 +1,182 @@
+---
+title: 'Lesson 4: Review Chapter 5 and Chapter 8'
+author: "Hao Wang"
+date: "2/2/2022"
+output:
+  pdf_document: default
+---
+
+# 0. Load libraries
+
+```{r setup, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rlang)
+
+# Load NYC flight dataset 
+library(nycflights13)
+```
+
+# 1. Review Chapter 5 Exercises
+
+## \S 5.2.4
+
+1.  Find all flights that
+
+1.1 Had an arrival delay of two or more hours
+
+```{r}
+flights %>% filter(arr_delay >= 120)
+```
+
+2.2 The flights that flew to Houston are those flights where the destination (dest) is either "IAH" or "HOU".
+
+```{r}
+flights %>% filter(dest %in% c("IAH", "HOU"))
+```
+
+## \S 5.5.2
+
+Q 2. Compare air_time with arr_time - dep_time. What do you expect to see? What do you see? What do you need to do to fix it?
+
+**Expect**: air_time = arr_time - dep_time
+
+Check it
+
+```{r}
+flights_airtime <-
+  mutate(flights,
+    dep_time_mins = (dep_time %/% 100 * 60 + dep_time %% 100) %% 1440,
+    arr_time_mins = (arr_time %/% 100 * 60 + arr_time %% 100) %% 1440,
+    air_time_diff = air_time - arr_time_mins + dep_time_mins
+  )
+```
+
+```{r}
+ggplot(flights_airtime, aes(x = air_time_diff)) +
+  geom_histogram(binwidth = 1)
+```
+
+**Explanation:** The flights data does not contain the variables TaxiIn, TaxiOff, WheelsIn, and WheelsOff. It appears that the air_time variable refers to flight time, which is defined as the time between wheels-off (take-off) and wheels-in (landing). But the flight time does not include time spent on the runway taxiing to and from gates. With this new understanding of the data, the relationship between air_time, arr_time, and dep_time is air_time \<= arr_time - dep_time, supposing that the time zones of arr_time and dep_time are in the same time zone.
+
+## \S 5.7.1
+
+Q 6. Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error). Compute the air time of a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?
+
+**Answers**: standardizing variables with the mean and variance, we could use the median as a measure of central tendency and the interquartile range (IQR) as a measure of spread. The median and IQR are more resistant to outliers than the mean and standard deviation.
+
+$$standardized(x) = \frac{x - median(x)}{IQR(x)}$$
+
+```{r}
+standardized_flights <- flights %>%
+  filter(!is.na(air_time)) %>%
+  group_by(dest, origin) %>%
+  mutate(
+    air_time_median = median(air_time),
+    air_time_iqr = IQR(air_time),
+    n = n(),
+    air_time_standard = (air_time - air_time_median) / air_time_iqr)
+```
+
+```{r}
+ggplot(standardized_flights, aes(x = air_time_standard)) +
+  geom_density()
+```
+
+```{r}
+standardized_flights %>%
+  arrange(air_time_standard) %>%
+  select(
+    carrier, flight, origin, dest, month, day, air_time,
+    air_time_median, air_time_standard
+  ) %>%
+  head(10) %>%
+  print(width = Inf)
+```
+
+Check the ground speed of flights.
+
+```{r}
+flights %>%
+  mutate(mph = distance / (air_time / 60)) %>%
+  ggplot(aes(x = mph)) +
+  geom_histogram(binwidth = 10)
+```
+
+The fastest flight is
+
+```{r}
+flights %>%
+  mutate(mph = distance / (air_time / 60)) %>%
+  arrange(desc(mph)) %>%
+  select(mph, flight, carrier, flight, month, day, dep_time) %>%
+  head(5)
+```
+
+The most delay flight compare to the fastest flight in same des and arr.
+
+air time comparing to the fastest flight on the route.
+
+```{r}
+air_time_delayed <-
+  flights %>%
+  group_by(origin, dest) %>%
+  mutate(
+    air_time_min = min(air_time, na.rm = TRUE),
+    air_time_delay = air_time - air_time_min,
+    air_time_delay_pct = air_time_delay / air_time_min * 100
+  )
+```
+
+```{r}
+air_time_delayed %>%
+  arrange(desc(air_time_delay)) %>%
+  select(
+    air_time_delay, carrier, flight,
+    origin, dest, year, month, day, dep_time,
+    air_time, air_time_min
+  ) %>%
+  head() %>%
+  print(width = Inf)
+```
+
+Q 8. For each plane, count the number of flights before the first delay of greater than 1 hour.
+
+If we use the dep_delay, here is the code.
+
+```{r}
+flights %>%
+  # sort in increasing order
+  select(tailnum, year, month, day, dep_delay) %>%
+  filter(!is.na(dep_delay)) %>%
+  arrange(tailnum, year, month, day) %>%
+  group_by(tailnum) %>%
+  # cumulative number of flights delayed over one hour
+  mutate(cumulative_hr_delays = cumsum(dep_delay > 60)) %>% #head(20)
+  # count the number of flights == 0
+  summarise(total_flights = sum(cumulative_hr_delays < 1)) %>%
+  arrange(desc(total_flights))
+```
+
+# 2. Chapter 8. Workflow: projects in R Studio
+
+-   where is your working directory?
+
+```{r, echo=TRUE, results='hide'}
+getwd()
+```
+
+-   Use RStudio Project to control the working folder and other folders
+
+-   in the project folder, you can have sub-folders: code, raw_data, output, etc.
+
+-   use relative path "./" (current path) and "../" (the parent path)
+
+```{r}
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex()
+
+ggsave("./output/diamonds.pdf")
+
+write_csv(diamonds, "./output/diamonds.csv")
+```
