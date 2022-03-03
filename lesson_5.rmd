@@ -1,0 +1,114 @@
+---
+title: 'Lesson 5: Chapter 10 and 11'
+author: "Hao Wang"
+date: "3/1/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# 0. Load libraries
+
+```{r setup, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(rlang)
+
+# Load NYC flight dataset 
+library(nycflights13)
+```
+
+# 1. Data wrangling
+
+Import -> Tidy -> Transform
+
+
+# 2. Chapter 10. Tibbles: A new way of data frame in R
+
+How to know if an object is a data frame or a tibble?
+
+```{r}
+str(iris)
+```
+
+```{r}
+class(iris)
+```
+
+
+```{r}
+str(as_tibble(iris))
+```
+
+```{r}
+class(as_tibble(iris))
+```
+
+- tibbles are more strict.
+
+
+# 3. Chapter 11. Data import
+
+How to load excel file or csv file into R? 
+
+- **readr** package in tidyverse.
+
+  function: read_csv()
+  
+- **readxl** package for importing .xls and xlsx
+
+```{r}
+library(readxl)
+
+weekly_plan <- 
+  readxl::read_xlsx(path = "weekly time plan.xlsx") %>% 
+  select(-`Preparation need from instructor`)
+```
+
+
+
+How to connect to Denodo through ODBC? 
+
+After DenodoODBC is installed, you can use library **odbc** to query Denodo views.
+
+```{r, eval=FALSE}
+library(odbc)
+
+# setup the connection
+con <- dbConnect(odbc::odbc(), "DenodoODBC", timeout = 30)
+
+# query table using SQL
+transfile <- 
+  dbGetQuery(con, 'SELECT * FROM bi_corporate_results."Transfile_2022_Final"') %>% 
+  as_tibble()
+
+```
+
+
+# 4. Exercise
+
+## 4.1 Exercise 1.
+
+- Read the sheet **PBI New** and **SAS New** of Excel file: **Test PBI and SAS new and endorsement 20220214.xlsx** into R.
+
+- How many records in each tab? 
+
+- what's the min, max, and mean of column "DateDiff" in sheet **PBI New** and column "Bus_Days" in sheet **SAS New**.
+
+## 4.2 Exercise 2.
+
+- Load the Denodo view bi_crm.Transfile_Company_Table_2022 in R.
+
+- sum of "Small Business Financial Customer Served Partnership Count", and sum of "Medium Financial Customer Served Count"
+
+
+
+
+
+
+
+
+
+
+
