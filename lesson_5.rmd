@@ -94,7 +94,7 @@ transfile <-
 
 - How many records in each tab? 
 
-- what's the min, max, and mean of column "DateDiff" in sheet **PBI New** and column "Bus_Days" in sheet **SAS New**.
+- what's the min, max, and mean of column "DateDiff" in sheet **PBI New** and column "**Bus_Days_End_to_End**" in sheet **SAS New**.
 
 ## 4.2 Exercise 2.
 
