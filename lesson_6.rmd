@@ -1,0 +1,115 @@
+---
+title: "Lesson 6 Chapter 12 & 13"
+author: "Hao Wang"
+date: "3/9/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# 0. Load libraries
+
+```{r setup, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(rlang)
+
+# Load NYC flight dataset 
+library(nycflights13)
+```
+
+# $12.3 Pivoting
+
+- pivot_longer(data, cols, names_to = "name", values_to = "value")
+
+```{r}
+relig_income
+```
+
+```{r}
+relig_income %>% 
+  pivot_longer(cols = !religion, names_to = "income", values_to = "count")
+```
+
+- pivot_wider(data, names_from, values_from)
+
+```{r}
+fish_encounters
+```
+
+```{r}
+fish_encounters %>% 
+  pivot_wider(names_from = station, values_from = seen)
+```
+
+- separate(data, col, into, sep) 
+
+```{r}
+df <- data.frame(x = c(NA, "x.y", "x.z", "y.z"))
+df
+df %>% separate(x, c("A", "B"))
+
+# use regular expression in separator.
+df %>% separate(x, c("A", "B"), sep = '\\.')
+```
+
+- unite()
+
+```{r}
+df_sep <- df %>% separate(x, c("A", "B"))
+
+# Different separators.
+df_sep %>% unite(x, A, B)
+
+# don't need to use regular express for the separator
+df_sep %>% unite(x, A, B, sep = ".")
+```
+
+
+# $13.4 Mutating joins
+
+Compare the joins in dplyr and SQL.
+
+
+dplyr	                                      SQL
+-------------------------   --------------------------------------
+inner_join(x, y, by = "z")	SELECT * FROM x INNER JOIN y USING (z)
+left_join(x, y, by = "z")	  SELECT * FROM x LEFT OUTER JOIN y USING (z)
+right_join(x, y, by = "z")	SELECT * FROM x RIGHT OUTER JOIN y USING (z)
+full_join(x, y, by = "z")	  SELECT * FROM x FULL OUTER JOIN y USING (z)
+
+
+
+# $13.7 Set operations
+
+- intersect(x, y): return only obs. in both x and y.
+
+- union(x, y): return unique obs. in x and y.
+
+- setdiff(x, y): return obs. in x, but not in y.
+
+
+# Exercise:
+
+Compare the sheet **PBI New** and **SAS New** of Excel file: **Test PBI and SAS new and endorsement 20220214.xlsx**
+
+- Policy number is the primary key for each sheet. Find out the difference records between the two sheets.
+
+- use join function and setdiff function to see if you can get the same results.
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
