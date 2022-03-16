@@ -24,4 +24,154 @@ library(forcats)
 library(nycflights13)
 ```
 
+Here is the link to package [*stringr*](https://stringr.tidyverse.org/) and package [*forcats*]( https://forcats.tidyverse.org/). 
+
+# 1. Chapter 14 Strings
+
+*stringr* has a lot of functions on string manipulation. Function usually starts with str_
+
+- combining strings: str_c()
+
+- spliting strings: str_split()
+
+- subsetting strings: str_sub()
+
+- detect matches: str_detect()
+
+- replacing matches: str_replace()
+
+
+```{r}
+str_c("x", "y", sep = ", ")
+```
+
+```{r}
+x <- c("Apple", "Banana", "Pear")
+str_sub(x, 1, 3)
+```
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_detect(x, "e")
+```
+
+- matching strings with **regular expressions**
+
+Section \$14.3 has a brief introduction about **regular expressions**, which is widely used in many other languages, such as SQL, Python, etc. If you are not familiar with it, I'd recommend read section \$14.3 and practice it.
+
+
+# 2. Chapter 15 Factors
+
+In most of cases, we'd like to convert character variables/categorical variables into *Factor* in R.
+
+```{r}
+x1 <- c("Dec", "Apr", "Jan", "Mar")
+
+sort(x1)
+```
+
+We can set up a level vector.
+
+```{r}
+month_levels <- c(
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+)
+```
+
+Then create a factor from x1 and the levels.
+```{r}
+y1 <- factor(x1, levels = month_levels)
+y1
+
+sort(y1)
+
+```
+
+To get familar with gss_cat survey data.
+```{r}
+str(gss_cat)
+?gss_cat
+```
+
+Use levels() or count() to see the levels in a factor.
+```{r}
+levels(gss_cat$race)
+levels(gss_cat$rincome)
+
+gss_cat %>% count(rincome)
+```
+
+## 2.1 Modifying factor order in ggplot2
+
+Explore the average number of hours spent watching TV per day across religions:
+```{r}
+relig_summary <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(
+    age_mean = mean(age, na.rm = TRUE),
+    tvhours_mean = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+View(relig_summary)
+
+ggplot(relig_summary, aes(tvhours_mean, relig)) + 
+  geom_point()
+```
+
+```{r}
+ggplot(relig_summary, aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) +
+  geom_point() +
+  labs(x = "Mean TV hours", y = "Religon")
+```
+
+Number of person in each marital status in bar chart. 
+
+```{r}
+gss_cat %>%
+  ggplot(aes(marital)) +
+  geom_bar()
+```
+
+Make the bars in an upward order.
+```{r}
+gss_cat %>%
+  mutate(marital = marital %>% 
+           fct_infreq() %>% 
+           fct_rev()
+         ) %>%
+  ggplot(aes(marital)) +
+    geom_bar()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
