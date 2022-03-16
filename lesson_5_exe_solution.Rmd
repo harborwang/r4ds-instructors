@@ -38,7 +38,7 @@ str(PBI_new)
 
 SAS_new <- readxl::read_excel(
     path = "L:/BIRA/R Training/Test PBI and SAS new and endorsement 20220214.xlsx",
-    sheet = "SAS New "
+    sheet = "SAS New"
     ) %>% 
   as_tibble()
 
@@ -60,9 +60,9 @@ PBI_new %>% summarise(min_DateDiff = min(DateDiff),
                    mean_DateDiff = mean(DateDiff),
                    )
 
-SAS_new %>% summarise(min_Bus_Days_End_to_End = min(Bus_Days_End_to_End),
-                   max_Bus_Days_End_to_End = max(Bus_Days_End_to_End),
-                   mean_Bus_Days_End_to_End = mean(Bus_Days_End_to_End),
+SAS_new %>% summarise(min_Bus_Days_End_to_End = min(Bus_Days_End_to_End, na.rm = T),
+                   max_Bus_Days_End_to_End = max(Bus_Days_End_to_End, na.rm = T),
+                   mean_Bus_Days_End_to_End = mean(Bus_Days_End_to_End, na.rm = T),
                    )
 
 ```
@@ -93,6 +93,8 @@ transfile_company_table %>%
       sum(`Small Business Financial Customer Served Partnership Count`, na.rm = T),
     `Total Medium Financial Customer Served Count` = 
       sum(`Medium Financial Customer Served Count`, na.rm = T))
+
+  
 ```
 
 

@@ -1,0 +1,27 @@
+---
+title: 'Lesson 7: Chapter 14 & 15'
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+# 0. Load libraries
+
+```{r setup, message=TRUE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(rlang)
+
+# A library for string operations
+library(stringr)
+
+# A library for working with Categorical variables, i.e. factors
+library(forcats)
+
+
+# Load NYC flight dataset 
+library(nycflights13)
+```
+
+
