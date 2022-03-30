@@ -1,9 +1,9 @@
 ---
 title: 'Lesson 8: Chapter 16 Dates and Time'
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
   html_notebook: default
 ---
 
@@ -92,13 +92,39 @@ The function floor_date return a date of the starting day of the week, the defau
 ```{r}
 flights_dt %>% mutate(week = floor_date(dep_time, "week")) %>% head()
 ```
-Use the count and floor_date to count the number of flight by week.
+Use the count and floor_date to count the number of flight by **day**.
+```{r}
+flights_dt %>% 
+  count(week = floor_date(dep_time, "day")) %>% 
+  ggplot(aes(week, n)) +
+    geom_line()
+```
+
+
+Use the count and floor_date to count the number of flight by **week**.
 ```{r}
 flights_dt %>% 
   count(week = floor_date(dep_time, "week")) %>% 
   ggplot(aes(week, n)) +
     geom_line()
 ```
+
+Use the count and floor_date to count the number of flight by **month**.
+```{r}
+flights_dt %>% 
+  count(week = floor_date(dep_time, "month")) %>% 
+  ggplot(aes(week, n)) +
+    geom_line()
+```
+
+Another way of counting the number of flight by **day**.
+```{r}
+flights_dt %>% 
+  count(day = as_date(dep_time)) %>% 
+  ggplot(aes(day, n)) +
+    geom_line()
+```
+
 
 ### Time Zone
 

@@ -1,0 +1,97 @@
+---
+title: 'Lesson 9: Chapter 27 R Markdown and Git in R'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  html_notebook: default
+---
+
+# 0. Load libraries
+
+```{r setup, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = "#>",
+  collapse = TRUE
+)
+
+library(tidyverse)
+library(rlang)
+
+# A library for string operations
+library(stringr)
+
+# A library for working with Categorical variables, i.e. factors
+library(forcats)
+
+# A library for working with date and time
+library(lubridate)
+
+# Load NYC flight dataset 
+library(nycflights13)
+```
+
+
+# 1. R Markdown
+
+Markdown is a framework for combining code, results, comments, documentation, etc. in one place. It is fully reproducible. It can be used to write slides, web pages, blogs, and even books. The output can be PDF, MS Word, html.
+
+## Start a R Markdown file
+
+Structure of a R Markdown file
+
+* **YAML header**: tells R how to compile the whole file
+
+* **Chunks**: where your R code goes.
+
+* **Normal Text**: where your thinking goes. Rich format with almost everything from Greek letters to calculas formulas.
+
+
+## Text format
+
+* Bold, italic, 
+
+* Headings
+
+* Lists
+
+## Chunks options
+
+* echo
+
+* message
+
+* include
+
+# 2. Using Git in R Studio
+
+* What is Git?
+
+  * How I collaborate with others in coding before
+  
+  * How I do it now using Git
+  
+A good book: [*Happy Git and GitHub for the useR*](https://happygitwithr.com/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
