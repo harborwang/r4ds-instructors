@@ -1,10 +1,10 @@
 ---
 title: 'Lesson 9: Chapter 27 R Markdown and Git in R'
 output:
-  html_notebook: default
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
+  html_notebook: default
 date: 2022-03-29
 ---
 
@@ -33,10 +33,16 @@ library(lubridate)
 library(nycflights13)
 ```
 
+```{r}
+x <- 1
+```
 
 # 1. R Markdown
 
 Markdown is a framework for combining code, results, comments, documentation, etc. in one place. It is fully reproducible. It can be used to write slides, web pages, blogs, and even books. The output can be PDF, MS Word, html.
+
+Here is a good book to learn R MarkDown: [**R Markdown: The Definitive Guide**](https://bookdown.org/yihui/rmarkdown/).
+
 
 ## Start a R Markdown file
 
@@ -46,7 +52,9 @@ Structure of a R Markdown file
 
 * **Chunks**: where your R code goes.
 
-* **Normal Text**: where your thinking goes. Rich format with almost everything from Greek letters to calculas formulas.
+* **Normal Text**: where your thinking goes. Rich format with almost everything from Greek letters to calculus formulas. 
+
+$x_2 = y^2$
 
 
 ## Text format
