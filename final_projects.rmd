@@ -1,0 +1,51 @@
+---
+title: "Small Projects for R Training"
+author: "Hao Wang"
+date: "3/31/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Project 1: Find out the discrepency records between two datasets
+
+In the Excel file L:\\BIRA\\R Training\\Test PBI and SAS new and endorsement 20220214.xlsx, there are two sheets, *PBI New* and *SAS New* that have data from two sources. Here are the list of columns for you to compare:
+
+1. Policy number: records with policy numbers that are only exist in one dataset.
+
+2. Transaction number: Transaction Number in *PBI New* vs. MBC_TRAN_NUM in *SAS New*. Records with Transaction number only in one dataset.
+
+For the records having same policy number and transaction number, check the following columns:
+
+3. MOA date: any unmatched MOA date (Policy MOA date in PBI New vs. MOA date in SAS New). 
+
+4. Request Received Date: Request Received Date in *PBI New* vs. RQT_RCVD_DT in *SAS New*.
+
+5. Daydiff = MOA date - Request Received Date + 1. 
+ 
+
+# Project 2: CMSB Medium Segment Customer Served Analysis
+
+**Task 1**: Pull the following data set from Denodo **bi_crm** virtual database.
+
+1. "Transfile_Company_Table_2022":
+  
+  * "Sales Portfolio Code": the sales portfolio code can be linked to the "CMSB_AM_Structure_2022" table to get the Sales_District and Sales_Region.
+  
+  * "Medium Financial Customer Served Count": = 1 when the CI number is counted as a customer served.
+  
+  * "Date Customer Became CS": Date when the CI number became a customer served
+
+2. "CMSB_AM_Structure_2022": to get the Sales_District and Sales_Region.
+
+
+**Task 2**: 
+
+Create a weekly line plot to show number of medium segment customer served by Sales Region. 
+
+
+
+
+
